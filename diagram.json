@@ -1,119 +1,38 @@
 {
-    "version": 1,
-    "author": "Uri Shaked",
-    "editor": "wokwi",
-    "parts": [
-        {
-            "type": "board-stm32-bluepill",
-            "id": "stm32",
-            "top": -1.36,
-            "left": -3.63,
-            "attrs": {}
-        },
-        {
-            "type": "wokwi-pushbutton",
-            "id": "btn1",
-            "top": 111.8,
-            "left": -96,
-            "attrs": {
-                "color": "green"
-            }
-        },
-        {
-            "type": "wokwi-potentiometer",
-            "id": "pot1",
-            "top": 57.4,
-            "left": 136.5,
-            "rotate": 90,
-            "attrs": {}
-        },
-        {
-            "type": "wokwi-rgb-led",
-            "id": "rgb1",
-            "top": -15.2,
-            "left": -123.7,
-            "attrs": {}
-        }
-    ],
-    "connections": [
-        [
-            "pot1:SIG",
-            "stm32:A1",
-            "green",
-            [
-                "v-0.4",
-                "h-48",
-                "v48"
-            ]
-        ],
-        [
-            "btn1:1.r",
-            "stm32:A12",
-            "green",
-            [
-                "v0"
-            ]
-        ],
-        [
-            "stm32:A8",
-            "rgb1:R",
-            "red",
-            [
-                "h0"
-            ]
-        ],
-        [
-            "stm32:A9",
-            "rgb1:G",
-            "green",
-            [
-                "h0"
-            ]
-        ],
-        [
-            "stm32:A10",
-            "rgb1:B",
-            "blue",
-            [
-                "h0"
-            ]
-        ],
-        [
-            "rgb1:COM",
-            "stm32:3V3.1",
-            "white",
-            [
-                "v0"
-            ]
-        ],
-        [
-            "stm32:GND.1",
-            "btn1:2.r",
-            "black",
-            [
-                "h0"
-            ]
-        ],
-        [
-            "pot1:GND",
-            "stm32:GND.3",
-            "black",
-            [
-                "h-28.8",
-                "v-67.2"
-            ]
-        ],
-        [
-            "stm32:3V3.2",
-            "pot1:VCC",
-            "red",
-            [
-                "h23.24",
-                "v76.8",
-                "h42.03",
-                "v0.8"
-            ]
-        ]
-    ],
-    "dependencies": {}
+  "version": 1,
+  "author": "Uri Shaked",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-st-nucleo-l031k6",
+      "id": "nucleo",
+      "top": -75.59,
+      "left": -217.25,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": -61,
+      "left": -105.6,
+      "attrs": { "color": "green" }
+    },
+    { "type": "wokwi-potentiometer", "id": "pot1", "top": 17.9, "left": -67.4, "attrs": {} },
+    { "type": "wokwi-rgb-led", "id": "rgb1", "top": -15.2, "left": -123.7, "attrs": {} }
+  ],
+  "connections": [
+    [ "$serialMonitor:TX", "nucleo:VCP_RX", "", [] ],
+    [ "$serialMonitor:RX", "nucleo:VCP_TX", "", [] ],
+    [ "rgb1:R", "nucleo:A5", "red", [ "v0" ] ],
+    [ "rgb1:G", "nucleo:A1", "green", [ "v0" ] ],
+    [ "rgb1:B", "nucleo:A2", "blue", [ "v0" ] ],
+    [ "rgb1:COM", "nucleo:GND.2", "black", [ "h-28.7", "v-67.6" ] ],
+    [ "btn1:1.l", "nucleo:A6", "green", [ "h-19.2", "v38.6" ] ],
+    [ "btn1:2.l", "nucleo:A7", "green", [ "h-19.2", "v38.6" ] ],
+    [ "nucleo:3V3", "btn1:2.r", "black", [ "h18.6", "v-38.4", "h116.4", "v38.2" ] ],
+    [ "pot1:SIG", "nucleo:A0", "green", [ "h-0.4", "v-19.2" ] ],
+    [ "pot1:VCC", "nucleo:3V3", "red", [ "v-9.6", "h-106.4", "v9.6" ] ],
+    [ "pot1:GND", "nucleo:GND.1", "black", [ "v28.8", "h-67.2", "v28.8", "h-124.8", "v-153.6" ] ]
+  ],
+  "dependencies": {}
 }

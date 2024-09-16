@@ -28,7 +28,7 @@ endforeach()
 
 # Debug, Release, RelWithDebInfo and MinSizeRel
 # @see: https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
 
 ###############################################################################
 ## Project Configuration
@@ -37,7 +37,7 @@ set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_PROJECT_NAME rgb_led_control)
 
 # Set the board version to an empty string if your board doesn't have a version
-set(BOARD_VERSION v1)
+set(BOARD_VERSION vl031)
 
 # Device Configuration
 set(DEVICE STM32F411CE)

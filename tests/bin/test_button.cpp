@@ -11,13 +11,13 @@
 
 int main() {
     test_core_init();
-    Button button(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
+    Button button(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);
 
     while (true) {
         if (button.is_pressed()) {
-            HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+            HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET);
         } else {
-            HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_RESET);
         }
     }
 }

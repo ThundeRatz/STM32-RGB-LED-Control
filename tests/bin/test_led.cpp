@@ -8,17 +8,17 @@
 
 #include "mcu.hpp"
 #include "test_core.hpp"
-#include "stm32f1xx_hal.h"  // Include the correct HAL header for STM32
+#include <gpio.h>
 
 int main() {
     test_core_init();
 
     while (true) {
-        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET);
 
         hal::mcu::sleep(1000);
 
-        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_RESET);
 
         hal::mcu::sleep(1000);
     }

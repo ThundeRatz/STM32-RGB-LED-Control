@@ -1,5 +1,5 @@
 [wokwi]
 version = 1
-firmware = 'build/test_led.hex'
-elf = 'build/test_led.elf'
+firmware = 'build/rgb_led_control_main.hex'
+elf = 'build/rgb_led_control_main.elf'
 gdbServerPort = 3333
