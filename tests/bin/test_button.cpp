@@ -11,7 +11,7 @@
 
 int main() {
     test_core_init();
-    Button button(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
+    Button button(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
 
     while (true) {
         if (button.is_pressed()) {
