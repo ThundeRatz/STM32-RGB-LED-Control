@@ -8,8 +8,8 @@
 
 #include "mcu.hpp"
 
+#include <dma.h>
 #include "gpio.h"
-#include "main.h"
 
 /*****************************************
  * Public Function Body Definitions
@@ -22,9 +22,11 @@ void mcu::init(void) {
     SystemClock_Config();
 
     MX_GPIO_Init();
+
+    MX_DMA_Init();
 }
 
 void mcu::sleep(uint32_t ms) {
     HAL_Delay(ms);
 }
-}
+}  // namespace hal
