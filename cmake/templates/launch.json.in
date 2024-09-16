@@ -4,6 +4,20 @@
         {
             "type": "cortex-debug",
             "request": "launch",
+            "servertype": "openocd",
+            "cwd": "${CMAKE_CURRENT_SOURCE_DIR}",
+            "gdbPath": "gdb-multiarch",
+            "executable": "build/${DEBUG_FILE_NAME}.elf",
+            "name": "Cortex Debug (OpenOCD)",
+            "runToEntryPoint": "main",
+            "configFiles": [
+                "${OPENOCD_SCRIPTS_PATH}/interface/stlink.cfg",
+                "${OPENOCD_SCRIPTS_PATH}/target/${TARGET_CFG}x.cfg"
+            ]
+        },
+        {
+            "type": "cortex-debug",
+            "request": "launch",
             "servertype": "stutil",
             "cwd": "${CMAKE_CURRENT_SOURCE_DIR}",
             "gdbPath": "arm-none-eabi-gdb",

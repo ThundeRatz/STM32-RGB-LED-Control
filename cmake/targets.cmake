@@ -1,7 +1,7 @@
 # Name: targets.cmake
 # ThundeRatz Robotics Team
 # Brief: This file contains auxiliary custom targets declarations
-# 04/2023
+# 04/2024
 
 ###############################################################################
 ## Auxiliary Targets
@@ -19,6 +19,12 @@ add_custom_target(cube
     COMMAND echo "exit" >> ${CMAKE_CURRENT_BINARY_DIR}/.cube
 
     COMMAND ${JAVA_EXE} -jar ${CUBE_JAR} -q ${CMAKE_CURRENT_BINARY_DIR}/.cube
+    COMMAND ${CMAKE_MAKE_PROGRAM} prepare
+)
+
+add_custom_target(prepare
+    COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --cyan "Preparing cube/Src/main.c"
+    COMMAND cmake -P "${CMAKE_CURRENT_SOURCE_DIR}/cmake/prepare.cmake"
 )
 
 add_custom_target(info
@@ -45,6 +51,7 @@ add_custom_target(clean_cube
 add_custom_target(rebuild
     COMMAND ${CMAKE_MAKE_PROGRAM} clean_all
     COMMAND cmake ..
+    COMMAND ${CMAKE_MAKE_PROGRAM} prepare
     COMMAND ${CMAKE_MAKE_PROGRAM}
 )
 
@@ -52,7 +59,15 @@ add_custom_target(rebuild_all
     COMMAND ${CMAKE_MAKE_PROGRAM} clean_cube
     COMMAND ${CMAKE_MAKE_PROGRAM} clean_all
     COMMAND cmake ..
+    COMMAND ${CMAKE_MAKE_PROGRAM} prepare
     COMMAND ${CMAKE_MAKE_PROGRAM}
+)
+
+add_custom_target(docs
+    COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && doxygen Doxyfile
+    COMMAND make -C ${CMAKE_CURRENT_SOURCE_DIR}/docs/latex
+    COMMAND mv ${CMAKE_CURRENT_SOURCE_DIR}/docs/latex/refman.pdf ${CMAKE_CURRENT_SOURCE_DIR}/docs/
+    COMMAND rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/docs/latex
 )
 
 function(targets_generate_format_target)
@@ -61,13 +76,13 @@ function(targets_generate_format_target)
         list(APPEND FILES_LIST ${${FILE}})
     endforeach()
     add_custom_target(format
-        COMMAND uncrustify -c ${CMAKE_CURRENT_SOURCE_DIR}/uncrustify.cfg --replace --no-backup ${FILES_LIST}
+        COMMAND clang-format -style=file -i ${FILES_LIST} --verbose
     )
 endfunction()
 
 # Flash via st-link or jlink
 function(targets_generate_flash_target TARGET)
-    if("${TARGET}" STREQUAL "${PROJECT_NAME}")
+    if("${TARGET}" STREQUAL "${PROJECT_NAME}_main")
         set(TARGET_SUFFIX "")
     else()
         set(TARGET_SUFFIX _${TARGET})
@@ -85,7 +100,6 @@ function(targets_generate_flash_target TARGET)
 
     add_custom_target(jflash${TARGET_SUFFIX}
         COMMAND echo "Flashing ${PROJECT_NAME}.hex with J-Link"
-        COMMAND ${JLINK_EXE} ${CMAKE_CURRENT_BINARY_DIR}/.jlink-flash${TARGET_SUFFIX}
         COMMAND ${JLINK_EXE} ${CMAKE_CURRENT_BINARY_DIR}/jlinkflash/.jlink-flash${TARGET_SUFFIX}
     )
 
@@ -106,12 +120,12 @@ function(targets_generate_vsfiles_target TARGET)
 
     configure_file(${input_file} ${ouput_save_file})
 
-    add_custom_target(debug_files${TARGET_SUFFIX}
+    add_custom_target(debug${TARGET_SUFFIX}
         COMMAND echo "Configuring VS Code files for ${TARGET}"
         COMMAND cat ${ouput_save_file} > ${LAUNCH_JSON_PATH}
     )
 
-    add_dependencies(debug_files${TARGET_SUFFIX} ${TARGET})
+    add_dependencies(debug${TARGET_SUFFIX} ${TARGET})
 endfunction()
 
 function(targets_generate_helpme_target)
